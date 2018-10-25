@@ -67,6 +67,7 @@ public class FreeCellImpl implements Serializable {
 
     printGame();
 
+
   }
 
   private void moveOpenToFoundation(int cardIndex, int destPileNumber) {
@@ -75,15 +76,23 @@ public class FreeCellImpl implements Serializable {
     //System.out.println(house.get(destPileNumber)+" ........  "+ movingCard.getCardSuit());
     //System.out.println(foundationPile[destPileNumber].get(foundationPile[destPileNumber].size()-1).getCardNumber()+"  ........  "+ (movingCard.getCardNumber()-1));
 
-    if(house.get(destPileNumber).equals(movingCard.getCardSuit())  && foundationPile[destPileNumber].get(foundationPile[destPileNumber].size()-1).getCardNumber() == movingCard.getCardNumber()-1)
-    {
 
-      foundationPile[destPileNumber].add(movingCard);
+    if(movingCard.getCardNumber() == 1 && foundationPile[destPileNumber] == null)
+    {
+      house.put(destPileNumber,movingCard.getCardSuit());
+      ArrayList<Card> cardList = new ArrayList<>();
+      cardList.add(movingCard);
+      foundationPile[destPileNumber] = cardList;
       openPile[cardIndex] = null;
     }
-    else
-    {
-      System.out.println("Sorry cannot be moved to foundation pile!");
+    else {
+      if (house.get(destPileNumber).equals(movingCard.getCardSuit()) && foundationPile[destPileNumber].get(foundationPile[destPileNumber].size() - 1).getCardNumber() == movingCard.getCardNumber() - 1) {
+
+        foundationPile[destPileNumber].add(movingCard);
+        openPile[cardIndex] = null;
+      } else {
+        System.out.println("Sorry cannot be moved to foundation pile!");
+      }
     }
   }
 
@@ -357,6 +366,145 @@ public class FreeCellImpl implements Serializable {
       System.out.println(i+" "+cascadePile[i]);
     }
   }
+
+  public boolean isGameOver()
+  {
+    boolean checkFoundationFull = true;
+
+    boolean checkOandC = false;
+    boolean checkOandF = false;
+    boolean checkCandC = false;
+    boolean checkCandF = false;
+    List<Boolean> areKingsThere = new ArrayList<Boolean>();
+
+
+
+
+
+    checkOandC = checkOpen(cascadePile);
+
+    checkCandC = checkCascade(cascadePile);
+
+    for(int i=0;i<foundationPile.length;i++)
+    {
+
+
+      if(foundationPile[i] == null)
+      {
+        checkFoundationFull = false;
+      }
+      else
+      {
+        if(foundationPile[i].get(foundationPile[i].size() -1).getCardNumber() == 13)
+        {
+            areKingsThere.add(true);
+        }
+        else
+        {
+          areKingsThere.add(false);
+        }
+
+      }
+    }
+
+    System.out.println(areKingsThere);
+    if(!areKingsThere.contains(false) && !areKingsThere.isEmpty())
+    {
+      System.out.println("-------------------------  GAME OVER!! ----------------------------");
+      return true;
+    }
+
+
+
+      checkOandF = checkOpen(foundationPile);
+      checkCandF = checkCascade(foundationPile);
+
+
+    System.out.println("OC "+checkOandC+" OF "+checkOandF+" CC "+checkCandC+" CF "+checkCandF);
+    if(checkOandC&&checkOandF&&checkCandC&&checkCandF)
+    {
+      System.out.println("-------------------------  GAME OVER!! ----------------------------");
+      return true;
+    }
+    return false;
+  }
+
+  private boolean checkCascade(List<Card>[] pile) {
+
+
+
+    for(List<Card> cascadePileList: cascadePile)
+    {
+
+      if(cascadePileList.isEmpty())
+      {
+        return false;
+      }
+      else
+      {
+        Card lastCardOfCascadePile = cascadePileList.get(cascadePileList.size()-1);
+
+        for(int i=0;i<pile.length;i++)
+        {
+          if(pile[i] != null) {
+            List<Card> tempBuffer = pile[i];
+            Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
+            if (lastCardOfCascadePile.getCardNumber() == lastCardOfBuffer.getCardNumber() - 1 && !lastCardOfCascadePile.getCardColor().equals(lastCardOfBuffer.getCardColor())) {
+              System.out.println(lastCardOfCascadePile + "  -------> " + lastCardOfBuffer);
+              return false;
+            }
+          }
+
+        }
+
+
+
+      }
+
+    }
+
+    return true;
+
+  }
+
+  private boolean checkOpen(List<Card>[] pile) {
+
+
+    for(Card openCard: openPile)
+    {
+
+      if(openCard != null) {
+
+        for (int i = 0; i < pile.length; i++) {
+
+          if(pile[i] != null) {
+            List<Card> tempBuffer = pile[i];
+            Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
+
+            if (openCard.getCardNumber() == lastCardOfBuffer.getCardNumber() - 1 && !openCard.getCardColor().equals(lastCardOfBuffer.getCardColor())) {
+              System.out.println(openCard + "  -------> " + lastCardOfBuffer);
+              return false;
+            }
+          }
+
+        }
+      }
+      else
+      {
+        return false;
+      }
+
+
+
+    }
+
+    //open cannot be moved.
+    return true;
+
+
+  }
+
+
 
 
 }

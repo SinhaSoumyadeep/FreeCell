@@ -26,7 +26,7 @@ public class Main {
       List<Card> sortedCards = new ArrayList<>(fc.getDeck());
 
       Collections.sort(sortedCards,Collections.reverseOrder());
-      fc.startGame(fc.getDeck(), true);
+      fc.startGame(sortedCards, false);
       //fc.move(PileType.CASCADE,1,5,PileType.CASCADE,2);
       makeMove(fc);
     }
@@ -68,6 +68,12 @@ public class Main {
         saveGame(fc);
 
 
+        if(fc.isGameOver())
+        {
+          break;
+        }
+
+
       }
 
     }
@@ -103,7 +109,7 @@ public class Main {
 
   public static void saveGame(FreeCellImpl fc)
   {
-    String filename = "..\\..\\savedFile\\gamedata";
+    String filename = "savedFile/gamedata.txt";
     // Serialization
     try
     {
@@ -131,7 +137,7 @@ public class Main {
   public static FreeCellImpl retrieveGame()
   {
     FreeCellImpl savedObject = null;
-    String filename = "..\\..\\savedFile\\gamedata";
+    String filename = "savedFile/gamedata.txt";
     // Deserialization
     try
     {
