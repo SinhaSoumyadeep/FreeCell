@@ -1,7 +1,9 @@
 package freecell;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -66,6 +68,7 @@ public class Main {
         fc.move(src, Integer.parseInt(source), Integer.parseInt(cardIndex), dst, Integer.parseInt(dest));
 
         saveGame(fc);
+        writeMove(src.name(),source,cardIndex,dst.name(),dest);
 
 
         if(fc.isGameOver())
@@ -171,6 +174,22 @@ public class Main {
 
     return savedObject;
 
+  }
+
+  public static void writeMove(String src, String source,String cardIndex,String dst,String dest){
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("savedFile/writeMove.txt",true))) {
+
+      String content = "fc.move(PileType."+src+", "+source+", "+cardIndex+", PileType."+dst+", "+dest+");\n";
+
+      bw.write(content);
+
+      System.out.println("Done writing move!");
+
+    } catch (IOException e) {
+
+      e.printStackTrace();
+
+    }
   }
 
 }

@@ -381,9 +381,9 @@ public class FreeCellImpl implements Serializable {
 
 
 
-    checkOandC = checkOpen(cascadePile);
+    checkOandC = checkOpenToCascade();
 
-    checkCandC = checkCascade(cascadePile);
+    checkCandC = checkCascadeToCascade();
 
     for(int i=0;i<foundationPile.length;i++)
     {
@@ -416,8 +416,8 @@ public class FreeCellImpl implements Serializable {
 
 
 
-      checkOandF = checkOpen(foundationPile);
-      checkCandF = checkCascade(foundationPile);
+      checkOandF = checkOpenToFoundation();
+      checkCandF = checkCascadeToFoundation();
 
 
     System.out.println("OC "+checkOandC+" OF "+checkOandF+" CC "+checkCandC+" CF "+checkCandF);
@@ -429,7 +429,7 @@ public class FreeCellImpl implements Serializable {
     return false;
   }
 
-  private boolean checkCascade(List<Card>[] pile) {
+  private boolean checkCascadeToCascade() {
 
 
 
@@ -444,10 +444,10 @@ public class FreeCellImpl implements Serializable {
       {
         Card lastCardOfCascadePile = cascadePileList.get(cascadePileList.size()-1);
 
-        for(int i=0;i<pile.length;i++)
+        for(int i=0;i<cascadePile.length;i++)
         {
-          if(pile[i] != null) {
-            List<Card> tempBuffer = pile[i];
+          if(!cascadePile[i].isEmpty()) {
+            List<Card> tempBuffer = cascadePile[i];
             Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
             if (lastCardOfCascadePile.getCardNumber() == lastCardOfBuffer.getCardNumber() - 1 && !lastCardOfCascadePile.getCardColor().equals(lastCardOfBuffer.getCardColor())) {
               System.out.println(lastCardOfCascadePile + "  -------> " + lastCardOfBuffer);
@@ -467,7 +467,47 @@ public class FreeCellImpl implements Serializable {
 
   }
 
-  private boolean checkOpen(List<Card>[] pile) {
+
+  private boolean checkCascadeToFoundation() {
+
+
+
+    for(List<Card> cascadePileList: cascadePile)
+    {
+
+      if(cascadePileList.isEmpty())
+      {
+        return false;
+      }
+      else
+      {
+        Card lastCardOfCascadePile = cascadePileList.get(cascadePileList.size()-1);
+
+        for(int i=0;i<foundationPile.length;i++)
+        {
+          if(foundationPile[i] != null) {
+            List<Card> tempBuffer = foundationPile[i];
+            Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
+            if (lastCardOfCascadePile.getCardNumber() == lastCardOfBuffer.getCardNumber() + 1 && lastCardOfCascadePile.getCardSuit().equals(lastCardOfBuffer.getCardSuit())) {
+              System.out.println(lastCardOfCascadePile + "  -------> " + lastCardOfBuffer);
+              return false;
+            }
+          }
+
+        }
+
+
+
+      }
+
+    }
+
+    return true;
+
+  }
+
+
+  private boolean checkOpenToCascade() {
 
 
     for(Card openCard: openPile)
@@ -475,13 +515,50 @@ public class FreeCellImpl implements Serializable {
 
       if(openCard != null) {
 
-        for (int i = 0; i < pile.length; i++) {
+        for (int i = 0; i < cascadePile.length; i++) {
 
-          if(pile[i] != null) {
-            List<Card> tempBuffer = pile[i];
+          if(!cascadePile[i].isEmpty()) {
+            List<Card> tempBuffer = cascadePile[i];
             Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
 
             if (openCard.getCardNumber() == lastCardOfBuffer.getCardNumber() - 1 && !openCard.getCardColor().equals(lastCardOfBuffer.getCardColor())) {
+              System.out.println(openCard + "  -------> " + lastCardOfBuffer);
+              return false;
+            }
+          }
+
+        }
+      }
+      else
+      {
+        return false;
+      }
+
+
+
+    }
+
+    //open cannot be moved.
+    return true;
+
+
+  }
+
+  private boolean checkOpenToFoundation() {
+
+
+    for(Card openCard: openPile)
+    {
+
+      if(openCard != null) {
+
+        for (int i = 0; i < foundationPile.length; i++) {
+
+          if(foundationPile[i] != null) {
+            List<Card> tempBuffer = foundationPile[i];
+            Card lastCardOfBuffer = tempBuffer.get(tempBuffer.size() - 1);
+
+            if (openCard.getCardNumber() == lastCardOfBuffer.getCardNumber() + 1 && openCard.getCardSuit().equals(lastCardOfBuffer.getCardSuit())) {
               System.out.println(openCard + "  -------> " + lastCardOfBuffer);
               return false;
             }
