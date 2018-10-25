@@ -410,7 +410,7 @@ public class FreeCellImpl implements Serializable {
     System.out.println(areKingsThere);
     if(!areKingsThere.contains(false) && !areKingsThere.isEmpty())
     {
-      System.out.println("-------------------------  GAME OVER!! ----------------------------");
+      System.out.println("-------------------------  GAME OVER ----------------------------");
       return true;
     }
 
@@ -423,7 +423,7 @@ public class FreeCellImpl implements Serializable {
     System.out.println("OC "+checkOandC+" OF "+checkOandF+" CC "+checkCandC+" CF "+checkCandF);
     if(checkOandC&&checkOandF&&checkCandC&&checkCandF)
     {
-      System.out.println("-------------------------  GAME OVER!! ----------------------------");
+      System.out.println("-------------------------  GAME OVER ----------------------------");
       return true;
     }
     return false;
