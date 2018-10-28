@@ -3,12 +3,12 @@ package freecell;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class Card implements Comparable, Serializable {
+public final class Card implements Comparable, Serializable {
 
   private final Suits suit;
   private final Numbers number;
 
-  HashMap<String, String> symbol = new HashMap<String, String>(){
+  private static final HashMap<String, String> symbol = new HashMap<String, String>(){
     {
       put("DIAMONDS","\u25C6");
       put("HEARTS","\u2764");
@@ -18,7 +18,7 @@ public class Card implements Comparable, Serializable {
     }
   };
 
-  HashMap<String, String> numbers = new HashMap<String, String>(){
+  private static final HashMap<String, String> numbers = new HashMap<String, String>(){
     {
       put("ACE","A");
       put("KING","K");

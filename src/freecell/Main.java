@@ -23,7 +23,11 @@ public class Main {
 
     if(ans.equalsIgnoreCase("y"))
     {
-      FreeCellImpl fc = new FreeCellImpl();
+      FreecellOperations<Card> fc =  FreecellModel
+            .getBuilder()
+            .cascades(4)
+            .opens(8)
+            .build();
 
       List<Card> sortedCards = new ArrayList<>(fc.getDeck());
 
@@ -33,7 +37,7 @@ public class Main {
       makeMove(fc);
     }
     else {
-      FreeCellImpl fc  = retrieveGame();
+      FreecellModel fc  = retrieveGame();
       fc.relodeGame();
       makeMove(fc);
     }
@@ -41,7 +45,7 @@ public class Main {
 
   }
 
-  public static void makeMove(FreeCellImpl fc)
+  public static void makeMove(FreecellOperations fc)
   {
     try {
       while (true) {
@@ -110,7 +114,7 @@ public class Main {
   }
 
 
-  public static void saveGame(FreeCellImpl fc)
+  public static void saveGame(FreecellOperations fc)
   {
     String filename = "savedFile/gamedata.txt";
     // Serialization
@@ -137,9 +141,9 @@ public class Main {
     }
   }
 
-  public static FreeCellImpl retrieveGame()
+  public static FreecellModel retrieveGame()
   {
-    FreeCellImpl savedObject = null;
+    FreecellModel savedObject = null;
     String filename = "savedFile/gamedata.txt";
     // Deserialization
     try
@@ -149,7 +153,7 @@ public class Main {
       ObjectInputStream in = new ObjectInputStream(file);
 
       // Method for deserialization of object
-      savedObject = (FreeCellImpl) in.readObject();
+      savedObject = (FreecellModel) in.readObject();
 
       in.close();
       file.close();

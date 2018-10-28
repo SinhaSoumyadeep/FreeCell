@@ -9,12 +9,32 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
-public class FreeCellImpl implements Serializable {
+public class FreecellModel implements FreecellOperations<Card>, Serializable{
   private static final long serialVersionUID = 6033262243162979644L;
   private List<Card>[] cascadePile;
   private ArrayList<Card>[] foundationPile = new ArrayList[4];
   private Card[] openPile;
   private HashMap<Integer,String> house = new HashMap<>();
+
+
+
+
+  protected FreecellModel(int openPileSize, int cascadePileSize)
+  {
+    openPile = new Card[openPileSize];
+    cascadePile = new ArrayList[cascadePileSize];
+  }
+
+
+
+  public static FreecellOperationsBuilder getBuilder()
+  {
+      return new FreecellOperationBuilderImpl();
+  }
+
+
+
+
 
   public List<Card> getDeck()
   {
@@ -29,10 +49,9 @@ public class FreeCellImpl implements Serializable {
       deck = suffleCards(new ArrayList<>(deck));
     }
 
-    System.out.println(deck);
+    //System.out.println(deck);
 
-    openPile = new Card[4];
-    cascadePile = new ArrayList[8];
+
 
     distributeCards(deck, cascadePile.length);
 
@@ -282,7 +301,7 @@ public class FreeCellImpl implements Serializable {
 
     if(card.getCardNumber() == card1.getCardNumber()-1 && !card.getCardColor().equals(card1.getCardColor()))
     {
-        return true;
+      return true;
     }
 
     //fix this... check all the cards after the index with the last card of the destination. not just the first card of the sublist.
@@ -311,7 +330,7 @@ public class FreeCellImpl implements Serializable {
   private List<Card> suffleCards(List<Card> deckOfCards)
   {
 
-   List<Card> suffledDeck = deckOfCards;
+    List<Card> suffledDeck = deckOfCards;
     Random rand = new Random();
 
     for (int i = deckOfCards.size() - 1; i > 0; i--)
@@ -397,7 +416,7 @@ public class FreeCellImpl implements Serializable {
       {
         if(foundationPile[i].get(foundationPile[i].size() -1).getCardNumber() == 13)
         {
-            areKingsThere.add(true);
+          areKingsThere.add(true);
         }
         else
         {
@@ -416,8 +435,8 @@ public class FreeCellImpl implements Serializable {
 
 
 
-      checkOandF = checkOpenToFoundation();
-      checkCandF = checkCascadeToFoundation();
+    checkOandF = checkOpenToFoundation();
+    checkCandF = checkCascadeToFoundation();
 
 
     System.out.println("OC "+checkOandC+" OF "+checkOandF+" CC "+checkCandC+" CF "+checkCandF);
@@ -427,6 +446,11 @@ public class FreeCellImpl implements Serializable {
       return true;
     }
     return false;
+  }
+
+  @Override
+  public String getGameState() {
+    return "";
   }
 
   private boolean checkCascadeToCascade() {

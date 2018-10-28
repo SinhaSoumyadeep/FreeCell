@@ -12,14 +12,6 @@ public class Deck {
   private final ArrayList<Card> deckOfCards;
   private static Deck instance = null;
 
- /* private enum SUITS{
-    SPADES, CLUBS, HEARTS, DIAMONDS
-  }
-
-  private enum NUMBERS{
-    ACE, KING, QUEEN, JACK, TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO
-  }*/
-
   private Deck() {
     deckOfCards = new ArrayList<>();
     for (Suits suit : Suits.values()) {

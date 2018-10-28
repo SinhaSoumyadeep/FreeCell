@@ -1,0 +1,9 @@
+fc.move(PileType.CASCADE, 1, 6, PileType.FOUNDATION, 1);
+fc.move(PileType.CASCADE, 1, 6, PileType.FOUNDATION, 1);
+fc.move(PileType.CASCADE, 2, 6, PileType.FOUNDATION, 2);
+fc.move(PileType.CASCADE, 1, 6, PileType.FOUNDATION, 1);
+fc.move(PileType.CASCADE, 2, 6, PileType.FOUNDATION, 2);
+fc.move(PileType.CASCADE, 3, 6, PileType.FOUNDATION, 3);
+fc.move(PileType.CASCADE, 4, 5, PileType.FOUNDATION, 1);
+fc.move(PileType.CASCADE, 5, 5, PileType.FOUNDATION, 1);
+fc.move(PileType.CASCADE, 1, 12, PileType.FOUNDATION, 1);
