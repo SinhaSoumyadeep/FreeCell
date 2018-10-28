@@ -32,8 +32,9 @@ public class Main {
       List<Card> sortedCards = new ArrayList<>(fc.getDeck());
 
       Collections.sort(sortedCards,Collections.reverseOrder());
-      fc.startGame(sortedCards, false);
-      //fc.move(PileType.CASCADE,1,5,PileType.CASCADE,2);
+      //fc.startGame(sortedCards, false);
+      fc.startGame(fc.getDeck(), true);
+
       makeMove(fc);
     }
     else {

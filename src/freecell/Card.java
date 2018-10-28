@@ -86,11 +86,7 @@ public final class Card implements Comparable, Serializable {
 
   public String toString()
   {
-   /* return "\n" +
-            "|"+numbers.get(number)+"\t\t|\n" +
-            "|  \t"+symbol.get(suit)+"\t|\n" +
-            "|_______|";*/
-   return numbers.get(number.name())+" "+symbol.get(suit.name());
+   return numbers.get(number.name())+""+symbol.get(suit.name());
   }
 
 
